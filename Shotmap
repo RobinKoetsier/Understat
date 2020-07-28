@@ -13,11 +13,11 @@ shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
   scale_shape_manual(values = c("Goal" = 21,
                                 "Miss" = 1))       +
    labs(title = glue::glue(  
-    "<b><span style = 'color:#d00027'> {HomeTeam} : 1 {  
+    "<b><span style = 'color:#d00027'> {HomeTeam} : {hGoals} {  
     round(Home$sum[1],2)}
     
     </span></span></b> 
-    <span style = 'color:black;'> - {AwayTeam} : 2 (   {round(Away$sum[1],2)} 
+    <span style = 'color:black;'> - {AwayTeam} : {aGoals} (   {round(Away$sum[1],2)} 
     ,xG)" ),
     caption = "Data: Understat.com | Created by @RobinWilhelmus")+
   
