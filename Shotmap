@@ -1,7 +1,7 @@
-p <- createPitch(10300, 7000, "#f2f4f5", "#314b57", "#f2f4f5", "#15393D") 
+p <- createPitch(10600, 7040, "#f2f4f5", "#314b57", "#f2f4f5", "#15393D") 
 
 shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
-                          aes(x=10300 -(X*10300),y=7000 - (Y*7040),
+                          aes(x=10600 -(X*10600),y=7000 - (Y*7040),
                               size=xG,shape = Goal),color = "#d00027",fill =  "#d00027")+
   
   geom_point(data=match %>% filter(h_a=="a"),
