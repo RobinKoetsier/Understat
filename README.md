@@ -15,4 +15,3 @@ I will assume that you have at least some knowledge with R and already have some
 
 # Install Understatr and tidy data
 
-# Real Cool Heading
