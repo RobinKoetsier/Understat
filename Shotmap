@@ -8,9 +8,7 @@ shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
                           aes(x=X*10500,y=Y*7040,
                               group = seq_along(minute),size=xG,shape = Goal),
              color = "black",fill =  "#FBEE23") +   
-  theme(legend.position = "none") +
-  
-  scale_shape_manual(values = c("Goal" = 21,
+   scale_shape_manual(values = c("Goal" = 21,
                                 "Miss" = 1))       +
    labs(title = glue::glue(  
     "<b><span style = 'color:#d00027'> {HomeTeam} : {hGoals} {  
@@ -28,4 +26,5 @@ shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
     
     plot.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
     panel.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    legend.position = "none"
     plot.margin = margin(2,2,2,2,"mm"))
