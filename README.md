@@ -19,12 +19,16 @@ Download the Understatr package from [https://github.com/ewenme/understatr](http
 
 ```
 pacman::p_load(tidyverse, understatr)
+```
 
 Understatr has a few functions, see: 
+
 [https://rdrr.io/github/ewenme/understatr/man/](https://rdrr.io/github/ewenme/understatr/man/) 
+
 and 
+
 [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr)
-```
+
 
 # Inspect and modify the data
 
