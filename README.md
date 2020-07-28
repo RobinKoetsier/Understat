@@ -6,7 +6,7 @@ There is an easy way to plot expected goal timelines and shotmaps yourself. Unde
 [Install Understatr and tidy data](#install-understatr-and tidy-data)
 
 **- Inspect and modify the data**
-
+[Go to Real Cool Heading section](#real-cool-heading)
 **- Plot a shotmap**
 
 **- Plot an xG timeline**
@@ -15,3 +15,4 @@ I will assume that you have at least some knowledge with R and already have some
 
 # Install Understatr and tidy data
 
+# Real Cool Heading
