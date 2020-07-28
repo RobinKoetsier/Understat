@@ -1,0 +1,31 @@
+p <- createPitch(10300, 7000, "#f2f4f5", "#314b57", "#f2f4f5", "#15393D") 
+
+shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
+                          aes(x=10300 -(X*10300),y=7000 - (Y*7040),
+                              size=xG,shape = Goal),color = "#d00027",fill =  "#d00027")+
+  
+  geom_point(data=match %>% filter(h_a=="a"),
+                          aes(x=X*10500,y=Y*7040,
+                              group = seq_along(minute),size=xG,shape = Goal),
+             color = "black",fill =  "#FBEE23") +   
+  theme(legend.position = "none") +
+  
+  scale_shape_manual(values = c("Goal" = 21,
+                                "Miss" = 1))       +
+  labs(title = paste0(  
+    "<b><span style = 'color:#d00027'>",HomeTeam: ,"3 (",  
+    round(Home$sum[1],2), "xG)",
+    
+    "</span></span></b>" ,
+    "<span style = 'color:black;'> ",  "- ",AwayTeam, ": 2 (",   round(Away$sum[1],2) 
+    ,"xG)"),
+    caption = "Data: Understat.com | Created by @RobinWilhelmus") +
+  
+  theme(plot.title = ggtext::element_markdown(
+    size = 15,  
+    family = "Spartan-Bold",
+    hjust = 0.5),
+    
+    plot.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    panel.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    plot.margin = margin(2,2,2,2,"mm"))
