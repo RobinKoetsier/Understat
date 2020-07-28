@@ -1,4 +1,4 @@
-p <- createPitch(10600, 7040, "#f2f4f5", "#314b57", "#f2f4f5", "#15393D") 
+p <- createPitch(10600, 7040, "#f2f4f5", "#314b57", "#f2f4f5", "#15393D") #fc rstats function
 
 shotPlot <- p + geom_point(data=match %>% filter(h_a=="h"),
                           aes(x=10600 -(X*10600),y=7000 - (Y*7040),
