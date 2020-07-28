@@ -13,12 +13,17 @@ There is an easy way to plot expected goal timelines and shotmaps yourself. Unde
 
 I will assume that you have at least some knowledge with R and already have some packages installed. If not, start by searching info and tutorials about R and RStudio. 
 
-# Install Understatr and tidy data
+# Install Understatr and get data
 
 Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the tidyverse
 
 ```
 pacman::p_load(tidyverse, understatr)
+
+Understatr has a few functions, see: 
+[https://rdrr.io/github/ewenme/understatr/man/](https://rdrr.io/github/ewenme/understatr/man/) 
+and 
+[https://github.com/ewenme/understatr](https://github.com/ewenme/understatr)
 ```
 
 # Inspect and modify the data
