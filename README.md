@@ -18,7 +18,8 @@ I will assume that you have at least some knowledge with R and already have some
 Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the tidyverse
 
 ```
-pacman::p_load(tidyverse, understatr)
+library(tidyverse)
+library(understatr)
 ```
 
 Understatr has a few functions, see: 
