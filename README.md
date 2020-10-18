@@ -59,13 +59,40 @@ You can see the whole table with:
 ```
 view(match)
 ```
-For plotting the xG Time line, you don't need all the columns. You do need an extra column though, that will take the cumulative sum of the xG per team everytime there is a shot. To select the necessary columns (you can also keep them, but I prefer it this way) and get a new columnn we run:
+For plotting the xG Time line, you don't need all the columns. You do need an extra column though, that will take the cumulative sum of the xG per team everytime there is a shot. To select the necessary columns (you can also keep them, but I prefer it this way. It also saves us some time in the next step) and get a new columnn we run:
 ```
-shot_data <- match %>% select(minute,result,xG,player,h_a) %>% group_by(h_a) %>%
-  mutate(cumulativexG = cumsum(xG))
+shot_data <- match %>% 
+      select(minute,result,xG,player,h_a,h_team,a_team) %>% 
+      group_by(h_a) %>%
+      mutate(cumulativexG = cumsum(xG))
  ```
+The data is almost ready, the last thing that needs to be done is adding the start and end of the match to the data. Otherwise the plot will only have a line between the first and the last plot.
+Besides that, we need the max cumulatice xG for both teams.
+
+```
+home <- shot_data %>% filter(h_a == "h")
+homexG <- max(home$cumulativexG)
+away <- shot_data %>% filter(h_a == "a")
+awayxG <- max(away$cumulativexG)
+
+start_h <- data.frame(0,"Missed",0,"Player","h",0,shot_data$h_team[1],shot_data$a_team[1]) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
+start_a <- data.frame(0,"Missed",0,"Player","a",0,shot_data$h_team[1],shot_data$a_team[1])%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
+end_h <- data.frame(pmax(90,max(home$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1]) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
+end_a <- data.frame(pmax(90,max(away$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1])%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","a_team","h_team"))
+  
+df <- rbind(start_h,start_a,shot_data,end_h,end_a)
+```
+df is now your data frame/tibble with all the shots and their (cumulative) xG per team. Now we can plot the timeline with ggplot!
 
 # Plot an xG timeline
+
+Install {ggthemes} and {ggtext} for this part
+
+
 
 # Plot an xG shotmap
 
