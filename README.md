@@ -54,6 +54,17 @@ Which will give you this:
 
 # Inspect and modify the data
 
+You can see the whole table with:
+
+```
+view(match)
+```
+For plotting the xG Time line, you don't need all the columns. You do need an extra column though, that will take the cumulative sum of the xG per team everytime there is a shot. To select the necessary columns (you can also keep them, but I prefer it this way) and get a new columnn we run:
+```
+shot_data <- match %>% select(minute,result,xG,player,h_a) %>% group_by(h_a) %>%
+  mutate(cumulativexG = cumsum(xG))
+ ```
+
 # Plot an xG shotmap
 
 # Plot an xG timeline
