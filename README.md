@@ -3,7 +3,7 @@ Repo for scraping and plotting Understat data
 
 There is an easy way to plot expected goal timelines and shotmaps yourself. Understat.com provides data of all shots in a game and their xG value. In some easy steps we will:
 
-[- Install Understatr and tidy data](#install-understatr-and-tidy-data)
+[- Install packages and get data](#install-packages-and-get-data)
 
 [- Inspect and modify the data](#inspect-and-modify-the-data)
 
@@ -13,7 +13,7 @@ There is an easy way to plot expected goal timelines and shotmaps yourself. Unde
 
 I will assume that you have at least some knowledge with R and already have some packages installed. If not, start by searching info and tutorials about R and RStudio. 
 
-# Install Understatr and get data
+# Install packages and get data
 
 Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the tidyverse
 
