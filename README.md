@@ -7,9 +7,9 @@ There is an easy way to plot expected goal timelines and shotmaps yourself. Unde
 
 [- Inspect and modify the data](#inspect-and-modify-the-data)
 
-[- Plot an xG shotmap](#plot-an-xg-shotmap)
+[- Plot an xG timeline](#plot-an-xg-timeline)
 
-**- Plot an xG timeline**
+
 
 I will assume that you have at least some knowledge with R and already have some packages installed. If not, start by searching info and tutorials about R and RStudio. 
 
@@ -65,8 +65,10 @@ shot_data <- match %>% select(minute,result,xG,player,h_a) %>% group_by(h_a) %>%
   mutate(cumulativexG = cumsum(xG))
  ```
 
+# Plot an xG timeline
+
 # Plot an xG shotmap
 
-# Plot an xG timeline
+
 
 # Make everything look prettier 
