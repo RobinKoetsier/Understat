@@ -15,11 +15,12 @@ I will assume that you have at least some knowledge with R and already have some
 
 # Install packages and get data
 
-Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the tidyverse
+Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the some other packages. Install them, if you don't have them already!
 
 ```
 library(tidyverse)
 library(understatr)
+library(glue)
 ```
 
 Understatr has a few functions, see: 
@@ -91,7 +92,32 @@ df is now your data frame/tibble with all the shots and their (cumulative) xG pe
 
 # Plot an xG timeline
 
-Install {ggthemes} and {ggtext} for this part
+ggplot() + 
+  geom_step(data =shot_data,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
+  scale_color_manual(values = c(h = "#94BFE8",        # color home team
+                                a = "#CE3524")) +     # color away team
+  geom_point(data= shot_data %>% filter(result == "Goal"),shape = 19,size=4,  # add points for goals
+             aes(x=minute,y=cumulativexG, color = h_a)) +
+  
+  
+  theme_minimal() + 
+  labs(y="Expected goals",
+       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]}</i> - <i style='color:#CE3524'>{shot_data$a_team[1]}</i>"),
+       caption = "Data: Understat.com | Created by @RobinWilhelmus") +  #put your own name here!
+  
+  
+  coord_cartesian(xlim=c(0,pmax(90,shot_data$minute)),
+                  ylim=c(0,ceiling(max(shot_data$cumulativexG)))) +
+  scale_x_continuous(breaks = round(seq(min(0), max(shot_data$minute), by = 15),1)) +
+  theme(plot.title = ggtext::element_markdown(  
+    size = 15,  
+    family = "Spartan-Bold",
+    hjust = 0.5),
+    plot.subtitle = element_markdown(hjust=0.5, size =13, family = "Spartan-Bold"),
+    plot.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    panel.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    legend.position = "none")
+
 
 
 
