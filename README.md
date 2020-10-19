@@ -91,7 +91,7 @@ df <- rbind(start_h,start_a,shot_data,end_h,end_a)
 df is now your data frame/tibble with all the shots and their (cumulative) xG per team. Now we can plot the timeline with ggplot!
 
 # Plot an xG timeline
-
+```
 ggplot() + 
   geom_step(data =shot_data,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
   scale_color_manual(values = c(h = "#94BFE8",        # color home team
@@ -118,7 +118,7 @@ ggplot() +
     panel.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
     legend.position = "none")
 
-
+```
 
 
 
