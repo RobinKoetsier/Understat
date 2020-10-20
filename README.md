@@ -74,16 +74,18 @@ Besides that, we need the max cumulatice xG for both teams.
 ```
 home <- shot_data %>% filter(h_a == "h")
 homexG <- max(home$cumulativexG)
+homeGoal <- sum(home$Goal)
 away <- shot_data %>% filter(h_a == "a")
 awayxG <- max(away$cumulativexG)
+awayGoal <- sum(away$Goal)
 
 start_h <- data.frame(0,"Missed",0,"Player","h",0,shot_data$h_team[1],shot_data$a_team[1]) %>% 
   setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
 start_a <- data.frame(0,"Missed",0,"Player","a",0,shot_data$h_team[1],shot_data$a_team[1])%>% 
   setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
-end_h <- data.frame(pmax(90,max(home$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1]) %>% 
+end_h <- data.frame(pmax(90,max(home$minute),max(away$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1]) %>% 
   setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
-end_a <- data.frame(pmax(90,max(away$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1])%>% 
+end_a <- data.frame(pmax(90,max(away$minute),max(home$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1])%>% 
   setNames(c("minute","result","xG","player","h_a","cumulativexG","a_team","h_team"))
   
 df <- rbind(start_h,start_a,shot_data,end_h,end_a)
@@ -94,19 +96,20 @@ df is now your data frame/tibble with all the shots and their (cumulative) xG pe
 ```
 ggplot() + 
   geom_step(data =shot_data,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
-  scale_color_manual(values = c(h = "#94BFE8",        # color home team
-                                a = "#CE3524")) +     # color away team
+  scale_color_manual(values = c(h = "#94BFE8", #color home team
+                                a = "#CE3524")) +    # color away team
   geom_point(data= shot_data %>% filter(result == "Goal"),shape = 19,size=4,  # add points for goals
              aes(x=minute,y=cumulativexG, color = h_a)) +
   
   
-  theme_minimal() + 
+  theme_minimal() +    
   labs(y="Expected goals",
-       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]}</i> - <i style='color:#CE3524'>{shot_data$a_team[1]}</i>"),
-       caption = "Data: Understat.com | Created by @RobinWilhelmus") +  #put your own name here!
+       x= "Minute",
+       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]} {homeGoal}</i> - <i style='color:#CE3524'>{awayGoal} {shot_data$a_team[1]}</i>"),
+       caption = "Data: Understat.com | Created by @RobinWilhelmus") + 
   
   
-  coord_cartesian(xlim=c(0,pmax(90,shot_data$minute)),
+  coord_cartesian(xlim=c(0,max(shot_data$minute)),
                   ylim=c(0,ceiling(max(shot_data$cumulativexG)))) +
   scale_x_continuous(breaks = round(seq(min(0), max(shot_data$minute), by = 15),1)) +
   theme(plot.title = ggtext::element_markdown(  
