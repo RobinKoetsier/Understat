@@ -96,7 +96,7 @@ df is now your data frame/tibble with all the shots and their (cumulative) xG pe
 ```
 ggplot() + 
   geom_step(data =shot_data,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
-  scale_color_manual(values = c(h = "#94BFE8", #color home team
+  scale_color_manual(values = c(h = "#94BFE8",       #color home team
                                 a = "#CE3524")) +    # color away team
   geom_point(data= shot_data %>% filter(result == "Goal"),shape = 19,size=4,  # add points for goals
              aes(x=minute,y=cumulativexG, color = h_a)) +
@@ -105,8 +105,8 @@ ggplot() +
   theme_minimal() +    
   labs(y="Expected goals",
        x= "Minute",
-       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]} {homeGoal}</i> - <i style='color:#CE3524'>{awayGoal} {shot_data$a_team[1]}</i>"),
-       caption = "Data: Understat.com | Created by @RobinWilhelmus") + 
+       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]} {homeGoal}</i> - <i style='color:#CE3524'>{awayGoal} {shot_data$a_team[1]}</i>"), 
+       caption = "Data: Understat.com | Created by @RobinWilhelmus") +    #Put your own name here!
   
   
   coord_cartesian(xlim=c(0,max(shot_data$minute)),
