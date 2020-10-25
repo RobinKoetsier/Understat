@@ -1,0 +1,51 @@
+match <- get_match_shots(14836)
+head(match)
+shot_data <- match %>% 
+  select(minute,result,xG,player,h_a,h_team,a_team,h_goals,a_goals) %>% 
+  group_by(h_a) %>%
+  mutate(cumulativexG = cumsum(xG))
+
+home <- shot_data %>% filter(h_a == "h")
+homexG <- max(home$cumulativexG)
+homeGoal <- home$h_goals[1]
+away <- shot_data %>% filter(h_a == "a")
+awayxG <- max(away$cumulativexG)
+awayGoal <- away$a_goals[1]
+
+start_h <- data.frame(0,"Missed",0,"Player","h",0,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+start_a <- data.frame(0,"Missed",0,"Player","a",0,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal)%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+end_h <- data.frame(pmax(90,max(home$minute),max(away$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+end_a <- data.frame(pmax(90,max(away$minute),max(home$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal)%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","a_team","h_team","h_goals","a_goals"))
+
+df <- rbind(start_h,start_a,shot_data,end_h,end_a)
+
+ggplot() + 
+  geom_step(data =df,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
+  scale_color_manual(values = c(h = "#94BFE8",       #color home team
+                                a = "#CE3524")) +    # color away team
+  geom_point(data= shot_data %>% filter(result == "Goal"),shape = 19,size=4,  # add points for goals
+             aes(x=minute,y=cumulativexG, color = h_a)) +
+  
+  
+  theme_minimal() +    
+  labs(y="Expected goals",
+       x= "Minute",
+       title = glue("<i style='color:#94BFE8'>{shot_data$h_team[1]} {homeGoal}</i> - <i style='color:#CE3524'>{awayGoal} {shot_data$a_team[1]}</i>"), 
+       caption = "Data: Understat.com | Created by @RobinWilhelmus") +    #Put your own name here!
+  
+  
+  coord_cartesian(xlim=c(0,max(shot_data$minute)),
+                  ylim=c(0,ceiling(max(shot_data$cumulativexG)))) +
+  scale_x_continuous(breaks = round(seq(min(0), max(shot_data$minute), by = 15),1)) +
+  theme(plot.title = ggtext::element_markdown(  
+    size = 15,  
+    family = "Spartan-Bold",
+    hjust = 0.5),
+    plot.subtitle = element_markdown(hjust=0.5, size =13, family = "Spartan-Bold"),
+    plot.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    panel.background = element_rect(fill= "#f2f4f5",color = "#f2f4f5"),
+    legend.position = "none")
