@@ -63,10 +63,17 @@ view(match)
 ```
 For plotting the xG Time line, you don't need all the columns. You do need an extra column though, that will take the cumulative sum of the xG per team everytime there is a shot. To select the necessary columns (you can also keep them, but I prefer it this way. It also saves us some time in the next step) and get a new columnn we run:
 ```
-shot_data <- match %>% 
-      select(minute,result,xG,player,h_a,h_team,a_team) %>% 
-      group_by(h_a) %>%
-      mutate(cumulativexG = cumsum(xG))
+shot_data_home <- match %>% 
+  select(minute,result,xG,player,h_a,h_team,a_team,h_goals,a_goals) %>% 
+  filter(h_a == "h") %>%
+  mutate(cumulativexG = cumsum(xG))
+
+shot_data_away <- match %>% 
+  select(minute,result,xG,player,h_a,h_team,a_team,h_goals,a_goals) %>% 
+  filter(h_a == "a") %>%
+  mutate(cumulativexG = cumsum(xG))
+
+shot_data <- rbind(shot_data_home,shot_data_away)
  ```
 The data is almost ready, the last thing that needs to be done is adding the start and end of the match to the data. Otherwise the plot will only have a line between the first and the last plot.
 Besides that, we need the max cumulatice xG for both teams.
