@@ -21,6 +21,7 @@ Download the Understatr package from [https://github.com/ewenme/understatr](http
 library(tidyverse)
 library(understatr)
 library(glue)
+library(ggtext)
 ```
 
 Understatr has a few functions, see: 
