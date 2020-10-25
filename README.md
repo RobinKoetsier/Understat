@@ -74,20 +74,20 @@ Besides that, we need the max cumulatice xG for both teams.
 ```
 home <- shot_data %>% filter(h_a == "h")
 homexG <- max(home$cumulativexG)
-homeGoal <- sum(home$Goal)
+homeGoal <- home$h_goals[1]
 away <- shot_data %>% filter(h_a == "a")
 awayxG <- max(away$cumulativexG)
-awayGoal <- sum(away$Goal)
+awayGoal <- away$a_goals[1]
 
-start_h <- data.frame(0,"Missed",0,"Player","h",0,shot_data$h_team[1],shot_data$a_team[1]) %>% 
-  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
-start_a <- data.frame(0,"Missed",0,"Player","a",0,shot_data$h_team[1],shot_data$a_team[1])%>% 
-  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
-end_h <- data.frame(pmax(90,max(home$minute),max(away$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1]) %>% 
-  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team"))
-end_a <- data.frame(pmax(90,max(away$minute),max(home$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1])%>% 
-  setNames(c("minute","result","xG","player","h_a","cumulativexG","a_team","h_team"))
-  
+start_h <- data.frame(0,"Missed",0,"Player","h",0,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+start_a <- data.frame(0,"Missed",0,"Player","a",0,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal)%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+end_h <- data.frame(pmax(90,max(home$minute),max(away$minute)),"Missed",0,"Player","h",homexG,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal) %>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","h_team","a_team","h_goals","a_goals"))
+end_a <- data.frame(pmax(90,max(away$minute),max(home$minute)),"Missed",0,"Player","a",awayxG,shot_data$h_team[1],shot_data$a_team[1],homeGoal,awayGoal)%>% 
+  setNames(c("minute","result","xG","player","h_a","cumulativexG","a_team","h_team","h_goals","a_goals"))
+
 df <- rbind(start_h,start_a,shot_data,end_h,end_a)
 ```
 df is now your data frame/tibble with all the shots and their (cumulative) xG per team. Now we can plot the timeline with ggplot!
@@ -95,7 +95,7 @@ df is now your data frame/tibble with all the shots and their (cumulative) xG pe
 # Plot an xG timeline
 ```
 ggplot() + 
-  geom_step(data =shot_data,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
+  geom_step(data =df,aes(minute, cumulativexG,color = h_a),size= 2) +   #plot the line
   scale_color_manual(values = c(h = "#94BFE8",       #color home team
                                 a = "#CE3524")) +    # color away team
   geom_point(data= shot_data %>% filter(result == "Goal"),shape = 19,size=4,  # add points for goals
