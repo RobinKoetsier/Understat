@@ -1,3 +1,7 @@
+library(tidyverse)
+library(understatr)
+library(glue)
+library(ggtext)
 match <- get_match_shots(14836)
 head(match)
 shot_data_home <- match %>% 
