@@ -1,9 +1,16 @@
 match <- get_match_shots(14836)
 head(match)
-shot_data <- match %>% 
+shot_data_home <- match %>% 
   select(minute,result,xG,player,h_a,h_team,a_team,h_goals,a_goals) %>% 
-  group_by(h_a) %>%
+  filter(h_a == "h") %>%
   mutate(cumulativexG = cumsum(xG))
+
+shot_data_away <- match %>% 
+  select(minute,result,xG,player,h_a,h_team,a_team,h_goals,a_goals) %>% 
+  filter(h_a == "a") %>%
+  mutate(cumulativexG = cumsum(xG))
+
+shot_data <- rbind(shot_data_home,shot_data_away)
 
 home <- shot_data %>% filter(h_a == "h")
 homexG <- max(home$cumulativexG)
