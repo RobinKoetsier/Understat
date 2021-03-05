@@ -18,10 +18,10 @@ I will assume that you have at least some knowledge with R and already have some
 Download the Understatr package from [https://github.com/ewenme/understatr](https://github.com/ewenme/understatr) and load it along with the some other packages. Install them, if you don't have them already!
 
 ```
-library(tidyverse)
-library(understatr)
-library(glue)
-library(ggtext)
+require(tidyverse)
+require(understatr)
+require(glue)
+require(ggtext)
 ```
 
 Understatr has a few functions, see: 
