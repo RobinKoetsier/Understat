@@ -130,6 +130,8 @@ ggplot() +
     legend.position = "none")
 
 ```
+
+![](https://raw.githubusercontent.com/RobinKoetsier/Understat/master/plots/xg.png)
 This is really basic. You can change certain things like the width of the line, the colours and the caption yourself.
 
 
