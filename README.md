@@ -130,12 +130,12 @@ ggplot() +
     legend.position = "none")
 
 ```
-
+This is really basic. You can change certain things like the width of the line, the colours and the caption yourself.
 
 
 
 # Plot an xG shotmap
 
-
+WIP
 
 # Make everything look prettier 
